@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Mercado Pago</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- SDK do Mercado Pago - Necessário para integração com a API -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho do checkout -->
+        <header class="checkout-header">
+            <h1>Finalizar Compra</h1>
+            <p>Preencha os dados para completar seu pagamento</p>
+        </header>
+
+        <!-- Resumo do pedido -->
+        <div class="order-summary">
+            <h3>Resumo do Pedido</h3>
+            <div class="product-item">
+                <span class="product-name">Produto Exemplo</span>
+                <span class="product-price">R$ 99,90</span>
+            </div>
+            <div class="total">
+                <strong>Total: R$ 99,90</strong>
+            </div>
+        </div>
+
+        <!-- Formulário de checkout -->
+        <form id="checkout-form" class="checkout-form">
+            <!-- Dados do comprador -->
+            <div class="form-section">
+                <h3>Dados do Comprador</h3>
+                <div class="form-group">
+                    <label for="name">Nome Completo *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+            </div>
+
+            <!-- Dados de entrega -->
+            <div class="form-section">
+                <h3>Endereço de Entrega</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zipcode">CEP *</label>
+                        <input type="text" id="zipcode" name="zipcode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Rua *</label>
+                        <input type="text" id="street" name="street" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="number">Número *</label>
+                        <input type="text" id="number" name="number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="neighborhood">Bairro *</label>
+                        <input type="text" id="neighborhood" name="neighborhood" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">Cidade *</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">Estado *</label>
+                        <select id="state" name="state" required>
+                            <option value="">Selecione</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métodos de pagamento -->
+            <div class="form-section">
+                <h3>Método de Pagamento</h3>
+                <div class="payment-methods">
+                    <div class="payment-option">
+                        <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                        <label for="credit-card">
+                            <span class="payment-icon">💳</span>
+                            Cartão de Crédito
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="pix" name="payment-method" value="pix">
+                        <label for="pix">
+                            <span class="payment-icon">📱</span>
+                            PIX
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Container para o formulário de cartão do Mercado Pago -->
+                <div id="card-form-container" class="card-form-container">
+                    <!-- O formulário de cartão será inserido aqui pelo JavaScript -->
+                </div>
+            </div>
+
+            <!-- Botão de finalizar compra -->
+            <button type="submit" id="submit-button" class="submit-button">
+                Finalizar Compra
+            </button>
+        </form>
+
+        <!-- Área para mensagens de erro/sucesso -->
+        <div id="message-area" class="message-area"></div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="script.js"></script>
+</body>
+</html>
