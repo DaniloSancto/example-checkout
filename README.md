@@ -64,18 +64,18 @@ checkout-mercado-pago/
 └── README.md           # Documentação do projeto
 ```
 
-## 🛠️ Configuração
+## 🛠️ Configuração Simples (5 Minutos)
 
-### 1. Obter Credenciais do Mercado Pago
+### 1. **Obter Chave Pública (Gratuita)**
 
 1. Acesse [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
-2. Crie uma conta ou faça login
-3. Acesse "Suas integrações" > "Criar aplicação"
-4. Copie sua **Chave Pública** (Public Key)
+2. Crie uma conta gratuita
+3. Vá em "Suas integrações" > "Criar aplicação"
+4. Copie sua **Chave Pública** (começa com "APP_USR_")
 
-### 2. Configurar a Chave Pública
+### 2. **Configurar no Código**
 
-No arquivo `script.js`, substitua a linha:
+No arquivo `script.js`, linha 12, substitua:
 
 ```javascript
 const MERCADOPAGO_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
@@ -84,20 +84,15 @@ const MERCADOPAGO_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
 Por:
 
 ```javascript
-const MERCADOPAGO_PUBLIC_KEY = 'sua_chave_publica_aqui';
+const MERCADOPAGO_PUBLIC_KEY = 'APP_USR_sua_chave_aqui';
 ```
 
-### 3. Executar o Projeto
+### 3. **Testar Imediatamente**
 
-1. Abra o arquivo `index.html` em um navegador
-2. Ou use um servidor local:
-   ```bash
-   # Com Python
-   python -m http.server 8000
-   
-   # Com Node.js
-   npx http-server
-   ```
+1. **Abra o `index.html`** no seu navegador
+2. **Pronto!** O checkout já funciona
+
+**Não precisa de servidor, não precisa de backend, não precisa de banco de dados!**
 
 ## 🔧 Como Funciona
 
@@ -171,64 +166,67 @@ O projeto utiliza o **SDK JavaScript do Mercado Pago** para:
 
 ## 📚 Documentação Técnica
 
-### SDK Mercado Pago
-- **Documentação**: [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
+### 🔗 **Links Úteis**
+- **Documentação Oficial**: [Mercado Pago Developers](https://www.mercadopago.com.br/developers)
 - **SDK JavaScript**: [GitHub SDK](https://github.com/mercadopago/sdk-js)
-- **API Reference**: [API Docs](https://www.mercadopago.com.br/developers/pt/reference)
+- **Exemplos de Código**: [Checkout Pro](https://www.mercadopago.com.br/developers/pt/docs/checkout-pro)
 
-### Principais Métodos Utilizados:
+### 💡 **Principais Conceitos**
 
-#### 1. Inicialização do SDK
+#### **1. Tokenização (Segurança)**
 ```javascript
-mercadopago = new MercadoPago(PUBLIC_KEY, {
-    locale: 'pt-BR'
-});
-```
-
-#### 2. Formulário de Cartão
-```javascript
-cardForm = mercadopago.cardForm({
-    amount: "99.90",
-    iframe: true,
-    form: { /* configurações dos campos */ },
-    callbacks: { /* eventos */ }
-});
-```
-
-#### 3. Criação de Token
-```javascript
+// Os dados do cartão são convertidos em um token seguro
 cardForm.createCardToken().then(result => {
-    // Processa resultado
+    // Token seguro que pode ser enviado para processamento
+    console.log('Token:', result.id);
 });
 ```
 
-## 🚀 Implementação em Produção
-
-### Backend Necessário:
-1. **Criar Preferências**: Endpoint para gerar preferências PIX
-2. **Processar Webhooks**: Receber notificações de pagamento
-3. **Validar Dados**: Verificação adicional no servidor
-4. **Gerenciar Status**: Controle de estados de pagamento
-
-### Exemplo de Backend (Node.js):
+#### **2. Validação em Tempo Real**
 ```javascript
-// Criar preferência PIX
-app.post('/create-preference', async (req, res) => {
-    const preference = {
-        items: [{
-            title: req.body.title,
-            quantity: req.body.quantity,
-            unit_price: req.body.price
-        }],
-        payer: {
-            email: req.body.email
-        }
-    };
-    
-    const response = await mercadopago.preferences.create(preference);
-    res.json({ id: response.body.id });
-});
+// O SDK valida automaticamente:
+// - Número do cartão
+// - Data de expiração  
+// - Código de segurança
+// - Nome no cartão
 ```
+
+#### **3. Iframe Seguro**
+```javascript
+// Os campos do cartão ficam em iframe isolado
+// Dados sensíveis nunca passam pelo seu servidor
+iframe: true
+```
+
+## 🚀 Para Iniciantes - Como Testar
+
+### ✅ **Este Exemplo Funciona Sozinho!**
+
+Este checkout foi criado para ser **100% funcional** sem necessidade de backend. Você pode:
+
+1. **Testar Imediatamente**: Abra o `index.html` no navegador
+2. **Usar Cartões de Teste**: Funciona com cartões de teste do Mercado Pago
+3. **Ver Validações**: Todas as validações funcionam no frontend
+4. **Simular Pagamentos**: O sistema simula o processamento completo
+
+### 🧪 **Cartões de Teste para Desenvolvimento**
+
+```
+Cartão Aprovado: 4009 1753 3280 6176
+Cartão Recusado: 4000 0000 0000 0002
+CVV: Qualquer 3 dígitos
+Data: Qualquer data futura
+```
+
+### 📝 **Quando Você Precisará de Backend (Futuro)**
+
+**Apenas quando quiser ir para produção real:**
+- Processar pagamentos reais
+- Salvar dados no banco de dados
+- Enviar e-mails de confirmação
+- Gerenciar estoque de produtos
+
+**Para este exemplo de aprendizado, o backend NÃO é necessário!**
 
 ## 🐛 Solução de Problemas
 
