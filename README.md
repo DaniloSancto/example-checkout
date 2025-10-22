@@ -2,6 +2,48 @@
 
 Este projeto implementa um checkout completo integrado com a API do Mercado Pago, utilizando apenas HTML, CSS e JavaScript.
 
+## 📦 Como Funciona o Import do Mercado Pago
+
+### 🔗 Carregamento do SDK via CDN
+
+O Mercado Pago é integrado através de uma tag `<script>` no HTML que carrega o SDK oficial:
+
+```html
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+```
+
+### 🤔 Por que Precisamos Deste Import?
+
+1. **SDK Oficial**: O Mercado Pago fornece um SDK JavaScript oficial que contém todas as funcionalidades necessárias para processar pagamentos
+2. **Tokenização Segura**: O SDK gerencia a tokenização dos dados do cartão de forma segura, sem expor informações sensíveis
+3. **Validação de Cartão**: Inclui validação em tempo real de números de cartão, datas de expiração e códigos de segurança
+4. **Compatibilidade**: Garante compatibilidade com diferentes navegadores e dispositivos
+5. **Atualizações Automáticas**: O CDN sempre fornece a versão mais recente do SDK
+
+### 🔧 Como o SDK é Utilizado
+
+Após o carregamento, o SDK disponibiliza a classe `MercadoPago` globalmente:
+
+```javascript
+// Inicialização do SDK
+mercadopago = new MercadoPago(PUBLIC_KEY, {
+    locale: 'pt-BR'
+});
+
+// Criação do formulário de cartão
+cardForm = mercadopago.cardForm({
+    amount: "99.90",
+    iframe: true,
+    // ... configurações
+});
+```
+
+### ⚠️ Importante
+
+- **Ordem de Carregamento**: O script do Mercado Pago deve ser carregado ANTES do nosso `script.js`
+- **Chave Pública**: Necessária para autenticação com a API do Mercado Pago
+- **HTTPS**: Em produção, o site deve usar HTTPS para segurança
+
 ## 🚀 Funcionalidades
 
 - ✅ **Pagamento com Cartão de Crédito** - Integração segura com tokenização
